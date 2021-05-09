@@ -1,0 +1,7 @@
+#server config
+api_host: 0.0.0.0
+api_port: 8080
+
+teste:
+  item1: "val 1"
+  item2: "val 2"
