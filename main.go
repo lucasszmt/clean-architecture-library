@@ -1,17 +1,16 @@
 package main
 
 import (
-	"awesomeLibraryProject/application/user/register_user"
-	"awesomeLibraryProject/infra/user"
-	"fmt"
+	"awesomeLibraryProject/database"
 )
 
 func main() {
-	repo := &user.InMemoryUserRepository{}
-	service := register_user.RegisterUser{UserRepository: repo}
-	service.Execute(register_user.RegisterUserDto{
-		Name: "Lucas Szeremeta",
-		Cpf:  "08412535952",
-	})
-	fmt.Println(repo.Users)
+	//url := "host=localhost user=postgres password=postgres dbname=postgres port=5432"
+	//db, _ := gorm.Open(postgres.Open(url), &gorm.Config{})
+	//err := db.AutoMigrate(&migrations.User{}, &migrations.Book{})
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
+	database.Init()
+
 }
