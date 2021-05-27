@@ -1,4 +1,4 @@
-package user
+package repository
 
 import (
 	"awesomeLibraryProject/domain/library/user"
@@ -25,7 +25,7 @@ func (i *InMemoryUserRepository) Register(user *user.User) {
 }
 
 //
-//func (i *InMemoryUserRepository) Update(user *user.User) {
+//func (i *InMemoryUserRepository) Update(repository *repository.User) {
 //	panic("implement me")
 //}
 //
@@ -33,13 +33,13 @@ func (i *InMemoryUserRepository) Register(user *user.User) {
 //	panic("implement me")
 //}
 //
-//func (i *InMemoryUserRepository) Register(user user.User) {
-//	i.Users = append(i.Users, user)
+//func (i *InMemoryUserRepository) Register(repository repository.User) {
+//	i.Users = append(i.Users, repository)
 //}
 //
-//func (i *InMemoryUserRepository) Delete(user user.User) {
+//func (i *InMemoryUserRepository) Delete(repository repository.User) {
 //	for index, elem := range i.Users {
-//		if user.GetId() == elem.GetId() {
+//		if repository.GetId() == elem.GetId() {
 //			i.Users = append(i.Users[:index], i.Users[index+1:]...)
 //		}
 //	}
