@@ -2,15 +2,21 @@ package main
 
 import (
 	"awesomeLibraryProject/database"
+	"awesomeLibraryProject/infra/repository"
+	"fmt"
+	"log"
 )
 
 func main() {
-	//url := "host=localhost user=postgres password=postgres dbname=postgres port=5432"
-	//db, _ := gorm.Open(postgres.Open(url), &gorm.Config{})
-	//err := db.AutoMigrate(&migrations.User{}, &migrations.Book{})
-	//if err != nil {
-	//	log.Fatal(err)
-	//}
-	database.Init()
-
+	err := database.Init()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer database.Close()
+	repo := repository.NewUserPostgres(database.Db)
+	users, err := repo.GetAll()
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(users)
 }

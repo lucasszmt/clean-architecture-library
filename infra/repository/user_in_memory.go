@@ -25,7 +25,7 @@ func (i *InMemoryUserRepository) Register(user *user.User) {
 }
 
 //
-//func (i *InMemoryUserRepository) Update(repository *repository.User) {
+//func (i *InMemoryUserRepository) Update(repository *repository.UserPostgres) {
 //	panic("implement me")
 //}
 //
@@ -33,11 +33,11 @@ func (i *InMemoryUserRepository) Register(user *user.User) {
 //	panic("implement me")
 //}
 //
-//func (i *InMemoryUserRepository) Register(repository repository.User) {
+//func (i *InMemoryUserRepository) Register(repository repository.UserPostgres) {
 //	i.Users = append(i.Users, repository)
 //}
 //
-//func (i *InMemoryUserRepository) Delete(repository repository.User) {
+//func (i *InMemoryUserRepository) Delete(repository repository.UserPostgres) {
 //	for index, elem := range i.Users {
 //		if repository.GetId() == elem.GetId() {
 //			i.Users = append(i.Users[:index], i.Users[index+1:]...)

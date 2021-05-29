@@ -5,38 +5,65 @@ import (
 	"database/sql"
 	_ "github.com/lib/pq"
 	"log"
+	"time"
 )
 
-type User struct {
+type UserPostgres struct {
 	db *sql.DB
 }
 
-func NewUser(db *sql.DB) *User {
-	return &User{db: db}
+type UserModel struct {
+	id        int
+	name      string
+	email     string
+	createdAt time.Time
 }
 
-func (u User) FindById(id int) *user.User {
+func NewUserPostgres(db *sql.DB) *UserPostgres {
+	return &UserPostgres{db: db}
+}
+
+func (u *UserPostgres) GetAll() (users []*user.User, err error) {
+	rows, err := u.db.Query("SELECT users.id, users.name, users.email, users.created_at FROM users")
+	if err != nil {
+		return
+	}
+	defer rows.Close()
+	for rows.Next() {
+		u := UserModel{}
+		err = rows.Scan(&u.id, &u.name, &u.email, &u.createdAt)
+		if err != nil {
+			return
+		}
+		log.Println(u.createdAt)
+		entity, _ := user.NewPresentationUser(u.id, u.name, u.email, u.createdAt)
+		users = append(users, entity)
+	}
+	return
+}
+
+func (u *UserPostgres) FindById(id int) (*user.User, error) {
 	panic("implement me")
 }
 
-func (u User) Delete(user *user.User) {
+func (u *UserPostgres) Delete(user *user.User) error {
 	panic("implement me")
 }
 
-func (u User) Update(user *user.User) {
+func (u *UserPostgres) Update(user *user.User) error {
 	panic("implement me")
 }
 
-func (u User) Register(user *user.User) {
+func (u *UserPostgres) Register(user *user.User) error {
 	smt, err := u.db.Prepare(
 		"INSERT INTO users(name, email, password, created_at) VALUES($1, $2, $3, $4);")
 	if err != nil {
 		log.Fatal("Sql Err:", err)
 	}
-	result, errExec := smt.Exec(user.GetName(), user.GetEmail(), user.GetPassword(), user.CreatedAt())
+	_, errExec := smt.Exec(user.GetName(), user.GetEmail(), user.GetPassword(), user.CreatedAt())
 	if errExec != nil {
 		log.Fatal(errExec)
 	}
 
-	log.Println(result)
+	return nil
 }

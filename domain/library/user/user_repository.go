@@ -1,8 +1,9 @@
 package user
 
 type Repository interface {
-	FindById(id int) *User
-	Delete(user *User)
-	Update(user *User)
-	Register(user *User)
+	GetAll() ([]*User, error)
+	FindById(id int) (*User, error)
+	Delete(user *User) error
+	Update(user *User) error
+	Register(user *User) error
 }
