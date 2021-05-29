@@ -1,26 +1,26 @@
 package repository
 
 import (
-	"awesomeLibraryProject/domain/library/user"
+	user2 "awesomeLibraryProject/domain/userctx"
 )
 
 type InMemoryUserRepository struct {
-	Users []user.User
+	Users []user2.User
 }
 
 func (i *InMemoryUserRepository) FindById(id int) {
 	panic("implement me")
 }
 
-func (i *InMemoryUserRepository) Delete(user *user.User) {
+func (i *InMemoryUserRepository) Delete(user *user2.User) {
 	panic("implement me")
 }
 
-func (i *InMemoryUserRepository) Update(user *user.User) {
+func (i *InMemoryUserRepository) Update(user *user2.User) {
 	panic("implement me")
 }
 
-func (i *InMemoryUserRepository) Register(user *user.User) {
+func (i *InMemoryUserRepository) Register(user *user2.User) {
 	i.Users = append(i.Users, *user)
 }
 
@@ -33,7 +33,7 @@ func (i *InMemoryUserRepository) Register(user *user.User) {
 //	panic("implement me")
 //}
 //
-//func (i *InMemoryUserRepository) Register(repository repository.UserPostgres) {
+//func (i *InMemoryUserRepository) Insert(repository repository.UserPostgres) {
 //	i.Users = append(i.Users, repository)
 //}
 //

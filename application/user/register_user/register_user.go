@@ -1,12 +1,13 @@
 package register_user
 
-import "awesomeLibraryProject/domain/library/user"
+import (
+	user2 "awesomeLibraryProject/domain/userctx"
+)
 
 type RegisterUser struct {
-	UserRepository user.Repository
+	UserRepository user2.Repository
 }
 
 func (r *RegisterUser) Execute(data RegisterUserDto) {
-	userWithNameCPF := user.NewUserWithNameCPF(data.Name, data.Cpf)
-	r.UserRepository.Register(userWithNameCPF)
+	panic("implement me")
 }

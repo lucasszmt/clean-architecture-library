@@ -1,7 +1,7 @@
-package user
+package userctx
 
 import (
-	"awesomeLibraryProject/domain/library/book"
+	book2 "awesomeLibraryProject/domain/bookctx"
 	"fmt"
 	"golang.org/x/crypto/bcrypt"
 	"regexp"
@@ -13,7 +13,7 @@ type User struct {
 	name      string
 	password  string
 	email     string
-	books     []book.Book
+	books     []book2.Book
 	createdAt time.Time
 	updatedAt time.Time
 }
@@ -35,8 +35,8 @@ func NewUser(name string, password string, email string) (*User, error) {
 	return &user, nil
 }
 
-func NewPresentationUser(id int, name string, email string, createdAt time.Time) (user *User, err error) {
-	user = &User{id: id, name: name, email: email, createdAt: createdAt}
+func NewPresentationUser(id int, name string, email string) (user *User, err error) {
+	user = &User{id: id, name: name, email: email}
 	return
 }
 
@@ -49,7 +49,7 @@ func (u *User) SetName(name string) {
 }
 
 func (u *User) SetEmail(email string) error {
-	pattern, _ := regexp.Compile(`[A-Za-z]+@[a-z]+\.com(\.[a-z]+)?`)
+	pattern, _ := regexp.Compile(`[A-Za-z]+(.*)@[a-z]+(.*)(\.com(\.[a-z]+)?)?`)
 	if pattern.MatchString(email) == true {
 		u.email = email
 		return nil

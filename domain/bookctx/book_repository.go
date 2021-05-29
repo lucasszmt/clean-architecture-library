@@ -1,4 +1,4 @@
-package book
+package bookctx
 
 type Repository interface {
 	Create(book *Book)
