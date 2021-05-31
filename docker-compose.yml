@@ -8,5 +8,3 @@ services:
       POSTGRES_USER: postgres
     ports:
       - 5432:5432
-
-#docker run -v /home/lucas/go/src/clean-architecture-library/database/migrations:/migrations --network host migrate/migrate -path=/migrations -database postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable down 1
