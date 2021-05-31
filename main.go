@@ -1,15 +1,12 @@
 package main
 
-import (
-	"awesomeLibraryProject/database"
-	"log"
-)
+import "fmt"
 
 func main() {
-	err := database.Init()
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer database.Close()
-
+	//err := database.Init()
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
+	//defer database.Close()
+	fmt.Println("OI")
 }

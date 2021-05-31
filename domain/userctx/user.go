@@ -1,7 +1,7 @@
 package userctx
 
 import (
-	book2 "awesomeLibraryProject/domain/bookctx"
+	"awesomeLibraryProject/domain/bookctx"
 	"fmt"
 	"golang.org/x/crypto/bcrypt"
 	"regexp"
@@ -13,7 +13,7 @@ type User struct {
 	name      string
 	password  string
 	email     string
-	books     []book2.Book
+	books     []bookctx.Book
 	createdAt time.Time
 	updatedAt time.Time
 }
