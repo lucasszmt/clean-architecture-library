@@ -1,10 +1,15 @@
 #!make
-include .env
+include .env # import env file
 export $(shell sed 's/=.*//' .env)
 
+initial_build:
+	@echo "Making initial build configs"
+	docker network create $(DOCKER_NETWORK)
+
 build:
-	@echo "Building"
-	go run main.go
+	@echo "Running application"
+	go build -o ./tmp/cleanarch main.go
+	./tmp/cleanarch
 
 MIGRATIONS_PATH="$(shell pwd)/database/migrations"
 DB_DSN="$$DB_TYPE://$$DB_USER:$$DB_PASS@$$DB_HOST:$$DB_PORT/$$DB_NAME?sslmode=disable"

@@ -5,11 +5,18 @@ services:
     image: postgres:alpine
     container_name: my-db
     environment:
-      POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     ports:
       - 5432:5432
-
+  app:
+    build:
+      context: .
+      dockerfile: go.Dockerfile
+    volumes:
+    - .:/app
+    depends_on:
+      - db
 networks:
   default:
     external:

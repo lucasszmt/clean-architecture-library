@@ -32,6 +32,10 @@ func NewUser(name string, password string, email string) (*User, error) {
 		return nil, passErr
 	}
 	user.password = hashedPassword
+	errValidate := user.Validate()
+	if errValidate != nil {
+		return nil, ErrInvalidUser
+	}
 	return &user, nil
 }
 
