@@ -3,7 +3,7 @@ version: "3.8"
 services:
   db:
     image: postgres:alpine
-    container_name: my-db
+    container_name: clean-arch-db
     environment:
       POSTGRES_USER: "${DB_USER}"
       POSTGRES_PASSWORD: "${DB_PASSWORD}"

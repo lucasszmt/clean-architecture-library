@@ -12,13 +12,13 @@ build:
 	./tmp/cleanarch
 
 MIGRATIONS_PATH="$(shell pwd)/database/migrations"
-DB_DSN="$$DB_TYPE://$$DB_USER:$$DB_PASS@$$DB_HOST:$$DB_PORT/$$DB_NAME?sslmode=disable"
+DB_DSN="$(DB_TYPE)://$(DB_USER):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)?sslmode=disable"
 
 migrations:
-	docker run --rm -v $(MIGRATIONS_PATH):/migrations --network "$$DOCKER_NETWORK" migrate/migrate -path=/migrations -database $(DB_DSN) up
+	docker run --rm -v $(MIGRATIONS_PATH):/migrations --network $(DOCKER_NETWORK) migrate/migrate -path=/migrations -database $(DB_DSN) up
 
 clean:
-	docker run --rm -it -v $(MIGRATIONS_PATH):/migrations  --network "$$DOCKER_NETWORK" migrate/migrate -path=/migrations -database $(DB_DSN) down
+	docker run --rm -it -v $(MIGRATIONS_PATH):/migrations  --network $(DOCKER_NETWORK) migrate/migrate -path=/migrations -database $(DB_DSN) down
 
 #Creates the migration file already named
 create_migration:
