@@ -4,29 +4,27 @@ import (
 	"awesomeLibraryProject/domain/bookctx"
 	"fmt"
 	"golang.org/x/crypto/bcrypt"
-	"regexp"
 	"time"
 )
 
 type User struct {
-	id        int
+	id        string
 	name      string
 	password  string
-	email     string
+	email     Email
 	books     []bookctx.Book
 	createdAt time.Time
 	updatedAt time.Time
 }
 
-func NewUser(name string, password string, email string) (*User, error) {
+func NewUser(name string, password string, email Email) (*User, error) {
 	user := User{
 		name:      name,
 		password:  password,
+		email:     email,
 		createdAt: time.Now(),
 	}
-	if err := user.SetEmail(email); err != nil {
-		return nil, err
-	}
+
 	hashedPassword, passErr := generatePassword(password)
 	if passErr != nil {
 		return nil, passErr
@@ -39,12 +37,12 @@ func NewUser(name string, password string, email string) (*User, error) {
 	return &user, nil
 }
 
-func NewPresentationUser(id int, name string, email string) (user *User, err error) {
+func NewPresentationUser(id string, name string, email Email) (user *User, err error) {
 	user = &User{id: id, name: name, email: email}
 	return
 }
 
-func (u *User) GetId() int {
+func (u *User) GetId() string {
 	return u.id
 }
 
@@ -52,17 +50,8 @@ func (u *User) SetName(name string) {
 	u.name = name
 }
 
-func (u *User) SetEmail(email string) error {
-	pattern, _ := regexp.Compile(`[A-Za-z]+(.*)@[a-z]+(.*)(\.com(\.[a-z]+)?)?`)
-	if pattern.MatchString(email) == true {
-		u.email = email
-		return nil
-	}
-	return ErrInvalidEmail
-}
-
 func (u *User) Validate() error {
-	if u.name == "" || u.password == "" || u.email == "" {
+	if u.name == "" || u.password == "" || u.email == (Email{}) {
 		return ErrInvalidUser
 	}
 	return nil
@@ -72,8 +61,12 @@ func (u *User) GetName() string {
 	return u.name
 }
 
+func (u *User) SetEmail(email Email) {
+	u.email = email
+}
+
 func (u *User) GetEmail() string {
-	return u.email
+	return u.email.String()
 }
 
 func (u *User) GetPassword() string {
