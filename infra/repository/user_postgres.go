@@ -1,29 +1,29 @@
 package repository
 
 import (
+	"awesomeLibraryProject/database"
 	"awesomeLibraryProject/domain/userctx"
-	"database/sql"
 	_ "github.com/lib/pq"
 	"log"
 )
 
-type UserPostgres struct {
-	db *sql.DB
-}
+var UserPostgresRepo userctx.Repository = NewUserPostgres()
+
+type UserPostgres struct{}
 
 type UserModel struct {
-	id       int
+	id       string
 	name     string
 	email    string
 	password string
 }
 
-func NewUserPostgres(db *sql.DB) *UserPostgres {
-	return &UserPostgres{db: db}
+func NewUserPostgres() *UserPostgres {
+	return &UserPostgres{}
 }
 
 func (u *UserPostgres) GetAll() (users []*userctx.User, err error) {
-	rows, err := u.db.Query("SELECT users.id, users.name, users.email FROM users")
+	rows, err := database.Db.Query("SELECT users.id, users.name, users.email FROM users")
 	if err != nil {
 		return
 	}
@@ -41,7 +41,7 @@ func (u *UserPostgres) GetAll() (users []*userctx.User, err error) {
 }
 
 func (u *UserPostgres) FindById(id int) (*userctx.User, error) {
-	stmt, _ := u.db.Prepare("SELECT id, name, email, password from users where users.id = $1")
+	stmt, _ := database.Db.Prepare("SELECT id, name, email, password from users where users.id = $1")
 	defer stmt.Close()
 	usrModel := UserModel{}
 	err := stmt.QueryRow(id).Scan(&usrModel.id, &usrModel.name, &usrModel.email, &usrModel.password)
@@ -53,8 +53,8 @@ func (u *UserPostgres) FindById(id int) (*userctx.User, error) {
 }
 
 func (u *UserPostgres) Insert(user *userctx.User) error {
-	stmt, err := u.db.Prepare(
-		"INSERT INTO users(name, email, password) VALUES($1, $2, $3);")
+	stmt, err := database.Db.Prepare(
+		"INSERT INTO users(name, email, password, created_at) VALUES($1, $2, $3, $4);")
 	if err != nil {
 		log.Println(err)
 		return err
@@ -78,7 +78,7 @@ func (u *UserPostgres) Insert(user *userctx.User) error {
 }
 
 func (u *UserPostgres) Delete(id int) error {
-	stmt, err := u.db.Prepare("DELETE FROM users WHERE id = $1")
+	stmt, err := database.Db.Prepare("DELETE FROM users WHERE id = $1")
 	if err != nil {
 		return err
 	}
@@ -88,7 +88,7 @@ func (u *UserPostgres) Delete(id int) error {
 }
 
 func (u *UserPostgres) Update(user *userctx.User) error {
-	stmt, err := u.db.Prepare("UPDATE users SET name=$1, email=$2, password=$3 WHERE users.id = $4")
+	stmt, err := database.Db.Prepare("UPDATE users SET name=$1, email=$2, password=$3 WHERE users.id = $4")
 	if err != nil {
 		return err
 	}
