@@ -81,8 +81,13 @@ func (u *User) CreatedAt() time.Time {
 	return u.createdAt
 }
 
+func (u *User) CheckPassword(providedPass string) error {
+	err := bcrypt.CompareHashAndPassword([]byte(u.password), []byte(providedPass))
+	return err
+}
+
 func generatePassword(rawPassword string) (string, error) {
-	password, err := bcrypt.GenerateFromPassword([]byte(rawPassword), 10)
+	password, err := bcrypt.GenerateFromPassword([]byte(rawPassword), 14)
 	if err != nil {
 		return "", err
 	}
@@ -90,5 +95,5 @@ func generatePassword(rawPassword string) (string, error) {
 }
 
 func (u *User) String() string {
-	return fmt.Sprintf("ID:%d Name: %s, Email: %s, Created At: %s", u.id, u.name, u.email, u.createdAt)
+	return fmt.Sprintf("ID:%s Name: %s, Email: %s, Created At: %s", u.id, u.name, u.email, u.createdAt)
 }

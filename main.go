@@ -4,15 +4,15 @@ import (
 	"awesomeLibraryProject/config"
 	"awesomeLibraryProject/database"
 	"awesomeLibraryProject/domain/userctx"
-	"awesomeLibraryProject/infra/repository"
 	"log"
 )
 
 func main() {
-	Startup()
-	u, _ := userctx.NewUser("Lucas", "123456", "lucas@gmail.com")
-	err := repository.UserPostgresRepo.Insert(u)
-	log.Println(err)
+	//Startup()
+	//s := server.NewServer(":8000")
+	//s.Run()
+	u, _ := userctx.NewUser("Lucas Szeremeta", "123456789", "lucasszmt@gmail.com")
+	log.Println(u.CheckPassword("123"))
 }
 
 func Startup() {

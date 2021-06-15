@@ -18,8 +18,14 @@ func (u *UserBuilder) Name(name string) *UserBuilder {
 	return u
 }
 
-func (u *UserBuilder) Email(email *Email) *UserBuilder {
-	u.user.email = email
+func (u *UserBuilder) Email(email string) *UserBuilder {
+	e, _ := NewEmail(email)
+	u.user.email = e
+	return u
+}
+
+func (u *UserBuilder) Password(password string) *UserBuilder {
+	u.user.password = password
 	return u
 }
 

@@ -1,8 +1,7 @@
 package user
 
 type UseCase interface {
-	Authenticate()
-	GetUser()
+	FindUserById(id string) (SimpleUserDTO, error)
 	CreateUser()
 	ListUsers()
 	UpdateUser()

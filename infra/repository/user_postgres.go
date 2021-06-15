@@ -40,7 +40,7 @@ func (u *UserPostgres) GetAll() (users []*userctx.User, err error) {
 	return
 }
 
-func (u *UserPostgres) FindById(id int) (*userctx.User, error) {
+func (u *UserPostgres) FindById(id string) (*userctx.User, error) {
 	stmt, _ := database.Db.Prepare("SELECT id, name, email, password from users where users.id = $1")
 	defer stmt.Close()
 	usrModel := UserModel{}
@@ -50,6 +50,19 @@ func (u *UserPostgres) FindById(id int) (*userctx.User, error) {
 	}
 
 	return userctx.NewPresentationUser(usrModel.id, usrModel.name, usrModel.email)
+}
+
+func (u *UserPostgres) FindByEmail(email string) (*userctx.User, error) {
+	stmt, _ := database.Db.Prepare("SELECT id, name, email, password FROM users WHERE users.email = $1")
+	defer stmt.Close()
+	usrModel := UserModel{}
+	err := stmt.QueryRow(email).Scan(&usrModel.id, &usrModel.name, &usrModel.email, &usrModel.password)
+	if err != nil {
+		return nil, err
+	}
+	usr := userctx.NewUserBuilder().Id(usrModel.id).Name(usrModel.name).
+		Email(usrModel.email).Password(usrModel.password).Build()
+	return usr, err
 }
 
 func (u *UserPostgres) Insert(user *userctx.User) error {
